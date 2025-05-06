@@ -49,42 +49,43 @@ console.log(secretNumber);
 document.querySelector('.check').addEventListener('click', function () {
   const guessedNumber = Number(document.querySelector('.guess').value);
   if (guessedNumber >= 1 && guessedNumber <= 20) {
+    //If number is equal to secret number
     if (guessedNumber === secretNumber) {
       document.querySelector('.message').textContent = '🎉 Correct Number!';
       document.querySelector('.number').textContent = secretNumber;
       document.querySelector('.number').style.width = '30rem';
       if (score > highscore) {
-        console.log(`Highscore:${highscore},  Score: ${score}`);
         highscore = score;
-        console.log(`Highscore:${highscore},  Score: ${score}`);
         document.querySelector('.highscore').textContent = highscore;
       }
       document.body.style.backgroundColor = '#60b347';
+      //If number is higher than secret number
     } else if (guessedNumber > secretNumber) {
       document.querySelector('.message').textContent = '📈 Too High!';
       score--;
       document.querySelector('.score').textContent = score;
       if (score <= 0) {
-        document.querySelector('.message').textContent =
-          '💥 You Lost the Game!';
-        document.querySelector('.score').textContent = 0;
-        document.querySelector('.highscore').textContent = 0;
+        checkScore();
       }
+      //If number is lower than secret number
     } else if (guessedNumber < secretNumber) {
       document.querySelector('.message').textContent = '📉 Too Low!';
       score--;
       document.querySelector('.score').textContent = score;
       if (score <= 0) {
-        document.querySelector('.message').textContent =
-          '💥 You Lost the Game!';
-        document.querySelector('.score').textContent = 0;
-        document.querySelector('.highscore').textContent = 0;
+        checkScore();
       }
     }
   } else {
     document.querySelector('.message').textContent = '⛔ No Number!';
   }
 });
+
+function checkScore() {
+  document.querySelector('.message').textContent = '💥 You Lost the Game!';
+  document.querySelector('.score').textContent = 0;
+  document.querySelector('.highscore').textContent = 0;
+}
 
 document.querySelector('.again').addEventListener('click', function () {
   secretNumber = Math.trunc(Math.random() * 20 + 1);
