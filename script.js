@@ -77,7 +77,7 @@ document.querySelector('.check').addEventListener('click', function () {
       }
     }
   } else {
-    document.querySelector('.message').textContent = '⛔ No Number!';
+    document.querySelector('.message').textContent = '⛔ Not a Valid Number!';
   }
 });
 
