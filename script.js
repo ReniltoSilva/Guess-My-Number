@@ -41,32 +41,37 @@
 //5 - Keep highscore number from previous game DONE
 //6 - Gerar novo secretNumber DONE
 
-const displayMessage = function (message) {
-  document.querySelector('.message').textContent = message;
-};
-
+const numberField = document.querySelector('.number');
+const scoreField = document.querySelector('.score');
+const highscoreField = document.querySelector('.highscore');
 let score = 20;
 let highscore = 0;
 let secretNumber = Math.trunc(Math.random() * 20 + 1);
 console.log(secretNumber);
 
+//Function to display message
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
+//Function with most of the code logic
 document.querySelector('.check').addEventListener('click', function () {
   const guessedNumber = Number(document.querySelector('.guess').value);
   if (guessedNumber >= 1 && guessedNumber <= 20) {
     //If number is equal to secret number
     if (guessedNumber === secretNumber) {
-      document.querySelector('.number').textContent = secretNumber;
-      document.querySelector('.number').style.width = '30rem';
+      numberField.style.width = '30rem';
+      numberField.textContent = secretNumber;
       displayMessage('🎉 Correct Number!');
       if (score > highscore) {
         highscore = score;
-        document.querySelector('.highscore').textContent = highscore;
+        highscoreField.textContent = highscore;
       }
       document.body.style.backgroundColor = '#60b347';
       //If number is higher than secret number
     } else if (guessedNumber !== secretNumber) {
       score--;
-      document.querySelector('.score').textContent = score;
+      scoreField.textContent = score;
       if (score > 0) {
         displayMessage(
           guessedNumber > secretNumber ? '📈 Too High!' : '📉 Too Low!'
@@ -98,8 +103,8 @@ document.querySelector('.check').addEventListener('click', function () {
 
 //Function to check if score is Zero
 function checkScore() {
-  document.querySelector('.score').textContent = 0;
-  document.querySelector('.highscore').textContent = 0;
+  scoreField.textContent = 0;
+  highscoreField.textContent = 0;
   displayMessage('💥 You Lost the Game!');
 }
 
@@ -107,10 +112,10 @@ function checkScore() {
 document.querySelector('.again').addEventListener('click', function () {
   secretNumber = Math.trunc(Math.random() * 20 + 1);
   document.body.style.backgroundColor = '#222';
-  document.querySelector('.number').textContent = '?';
-  document.querySelector('.number').style.width = '15rem';
-  document.querySelector('.message').textContent = 'Start guessing...';
+  numberField.textContent = '?';
+  numberField.style.width = '15rem';
   score = 20;
-  document.querySelector('.score').textContent = 20;
+  scoreField.textContent = 20;
   document.querySelector('.guess').value = '';
+  displayMessage('Start guessing...');
 });
