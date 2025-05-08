@@ -41,6 +41,10 @@
 //5 - Keep highscore number from previous game DONE
 //6 - Gerar novo secretNumber DONE
 
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
 let score = 20;
 let highscore = 0;
 let secretNumber = Math.trunc(Math.random() * 20 + 1);
@@ -51,42 +55,55 @@ document.querySelector('.check').addEventListener('click', function () {
   if (guessedNumber >= 1 && guessedNumber <= 20) {
     //If number is equal to secret number
     if (guessedNumber === secretNumber) {
-      document.querySelector('.message').textContent = '🎉 Correct Number!';
       document.querySelector('.number').textContent = secretNumber;
       document.querySelector('.number').style.width = '30rem';
+      displayMessage('🎉 Correct Number!');
       if (score > highscore) {
         highscore = score;
         document.querySelector('.highscore').textContent = highscore;
       }
       document.body.style.backgroundColor = '#60b347';
       //If number is higher than secret number
-    } else if (guessedNumber > secretNumber) {
-      document.querySelector('.message').textContent = '📈 Too High!';
+    } else if (guessedNumber !== secretNumber) {
       score--;
       document.querySelector('.score').textContent = score;
-      if (score <= 0) {
-        checkScore();
-      }
-      //If number is lower than secret number
-    } else if (guessedNumber < secretNumber) {
-      document.querySelector('.message').textContent = '📉 Too Low!';
-      score--;
-      document.querySelector('.score').textContent = score;
-      if (score <= 0) {
+      if (score > 0) {
+        displayMessage(
+          guessedNumber > secretNumber ? '📈 Too High!' : '📉 Too Low!'
+        );
+      } else {
         checkScore();
       }
     }
+    // else if (guessedNumber > secretNumber) {
+    //   score--;
+    //   document.querySelector('.score').textContent = score;
+    //   if (score <= 0) {
+    //     checkScore();
+    //   }
+    //   displayMessage('📈 Too High!');
+    //   //If number is lower than secret number
+    // } else if (guessedNumber < secretNumber) {
+    //   score--;
+    //   document.querySelector('.score').textContent = score;
+    //   if (score <= 0) {
+    //     checkScore();
+    //   }
+    //   displayMessage('📉 Too Low!');
+    // }
   } else {
-    document.querySelector('.message').textContent = '⛔ Not a Valid Number!';
+    displayMessage('⛔ Not a Valid Number!');
   }
 });
 
+//Function to check if score is Zero
 function checkScore() {
-  document.querySelector('.message').textContent = '💥 You Lost the Game!';
   document.querySelector('.score').textContent = 0;
   document.querySelector('.highscore').textContent = 0;
+  displayMessage('💥 You Lost the Game!');
 }
 
+//Function to re-start the game when pressing 'AGAIN' button
 document.querySelector('.again').addEventListener('click', function () {
   secretNumber = Math.trunc(Math.random() * 20 + 1);
   document.body.style.backgroundColor = '#222';
